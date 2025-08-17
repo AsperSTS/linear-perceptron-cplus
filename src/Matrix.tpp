@@ -1,7 +1,7 @@
 #ifndef MATRIX_CPP
 #define MATRIX_CPP
 #include "Matrix.h"
-
+#include "Vector.h"
 
 /*
     Definicion de constructores
@@ -28,7 +28,15 @@ template <typename T> Matrix<T>::Matrix(size_t rows, size_t cols, unsigned int u
         }
     }
 }
-
+// Construtor para inicializar una matriz de ceros de tamano mxn
+template <typename T> Matrix<T>::Matrix(size_t rows, size_t cols){
+    data.resize(rows, std::vector<T>(cols)); // Inicializar la matriz con tamaño rows x cols
+    for(size_t i = 0; i < rows; i++){
+        for(size_t j=0; j < cols; j++){
+            data[i][j] = 0;
+        }
+    }
+}
 /*
     Funciones personalizadas necesarias
 */
@@ -83,5 +91,15 @@ template <typename T> void Matrix<T>::transpose_matrix() {
             std::swap(data[i][j], data[j][i]);
         }
     }
+}
+template <typename T> Vector<T> Matrix<T>::get_column(size_t index) const{
+    if(cols() < index){
+        throw std::invalid_argument("La matrix no cuenta con las columnas necesarias");
+    }
+    Vector<T> x_cols(rows()); 
+    for(size_t i= 0; i < rows(); i++){
+        x_cols[i] = data[i][index];
+    }
+    return Vector<T>(std::move(x_cols));
 }
 #endif

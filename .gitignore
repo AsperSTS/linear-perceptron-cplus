@@ -2,3 +2,9 @@
 /Test
 *.m
 .vscode
+*.pdf
+/eigen-3.4.0
+test.cpp
+test
+linearPerceptron
+TareaMatlab1TecIA.pdf

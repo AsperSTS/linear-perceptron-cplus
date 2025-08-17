@@ -1,20 +1,21 @@
-#ifndef VECTOR_CPP
-#define VECTOR_CPP
+#ifndef VECTOR_TPP
+#define VECTOR_TPP
 #include "Vector.h"
 #include <stdexcept>
-
+#include "Matrix.h"
+#include "Utils.h"
+/* 
+    Constructores
+*/
 template <typename T> Vector<T>::Vector(const std::vector<T>& data) : data(data) {
     // std::cout << "Initializing constant reference constructor\n";
 }
 
+// Constructor para crear un vector aleatorio
 template <typename T> Vector<T>::Vector(size_t size, unsigned int lower_bound, unsigned int upper_bound) {
     data.resize(size);
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<double> dis(lower_bound, upper_bound);
-
     for (size_t i = 0; i < size; ++i) {
-        data[i] = static_cast<T>(dis(gen));
+        data[i] = static_cast<T>(Utils::get_random_number(lower_bound, upper_bound));
     }
 }
 
@@ -25,7 +26,22 @@ template <typename T> Vector<T>::Vector(std::vector<T>&& data) noexcept : data(s
 template <typename T> Vector<T>::Vector(std::initializer_list<T> init) : data(init) {
     // std::cout << "Initializing list constructor\n";
 }
+template <typename T> Vector<T>::Vector(const Vector<T>& other, int number){
+    data.resize(other.size());
+    for(size_t i=0; i<other.size(); i++){
+        data[i] = number;
+    }
+}
+template <typename T> Vector<T>::Vector(size_t size){
+    data.resize(size);
+    for(size_t i=0; i<size; i++){
+        data[i] = 0;
+    }
+}
 
+/* 
+    Otras funciones
+*/
 template <typename T> const std::vector<T>& Vector<T>::getData() const {
     return data;
 }
@@ -185,4 +201,14 @@ template <typename T> template <typename U> auto Vector<T>::operator*(const Matr
     return Vector<U>(std::move(result)); 
 }
 
+/*
+    Implementacion del operador escalar por vector
+*/
+template<typename T> Vector<T> operator*(const T& scalar, const Vector<T>& vec) {
+    std::vector<T> result(vec.size());
+    for(size_t i=0; i<vec.size(); i++) {
+        result[i] = scalar * vec[i];
+    }
+    return Vector<T>(std::move(result));  // Asegúrate de que hay un punto y coma aquí
+}
 #endif

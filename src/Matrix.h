@@ -3,7 +3,9 @@
 #include<vector>
 #include<iostream>
 #include <ctime>
-// #include<cstddef>
+
+template <typename T> class Vector;
+
 template <typename T> class Matrix{
     private:
         std::vector<std::vector<T>> data;
@@ -17,10 +19,11 @@ template <typename T> class Matrix{
         Matrix(std::initializer_list<std::initializer_list<T>> init);
         // Constructor para crear una matriz de tamaño rows x cols con valores aleatorios entre 0 y upper_bound
         Matrix(size_t rows, size_t cols, unsigned int upper_bound);
+        Matrix(size_t rows, size_t cols);   //Constructor para inicializar una matrix con puros ceros
 
-        // Matrix duplicate_matrix(const Matrix& mat) const{
-        //     return Matrix(mat.data);
-        // }
+        Matrix duplicate_matrix(const Matrix& mat) const{
+            return Matrix(mat.data);
+        }
 
         /*
             Funciones personalizadas obligatorias    
@@ -44,6 +47,7 @@ template <typename T> class Matrix{
             Funciones que nos sirven para el perceptron
         */
         void transpose_matrix();
+        Vector<T> get_column(size_t index) const;
 };  
-#include "Matrix.cpp"
+#include "Matrix.tpp"
 #endif 
