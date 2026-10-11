@@ -1,155 +1,64 @@
-# Linear Perceptron Implementation in C++
+# Linear Perceptron in C++
 
-A C++ implementation of a linear perceptron using gradient descent for binary classification problems. This project includes custom vector and matrix classes with template support and optimized mathematical operations.
+Educational implementation of a binary classifier built in C++ with custom matrix and vector classes.
 
-## Features
+The project focuses on implementing the mathematical pieces directly instead of relying on a machine-learning framework.
 
-- **Custom Linear Algebra**: Template-based Vector and Matrix classes
-- **Gradient Descent Optimization**: Automatic weight adjustment using calculated gradients
-- **Sigmoid Activation**: Non-linear activation function with derivative calculation
-- **Multiple Logic Functions**: Support for AND, OR, MAJORITY, and custom logical functions
-- **Performance Timing**: Built-in execution time measurement
-- **OpenMP Parallelization**: Optimized for multi-core processing
+## What it demonstrates
 
-## Project Structure
+- Template-based `Vector` and `Matrix` classes.
+- Operator overloading for mathematical operations.
+- Forward pass with sigmoid activation.
+- Quadratic error calculation.
+- Gradient-based weight updates.
+- Logic-function classification examples.
+- Execution-time measurement.
+- Optional OpenMP parallelization.
 
-```
-├── README.md
-├── Makefile                # Build configuration
-├── build/
-│   └── linearPerceptron    # Compiled executable
-└── src/
-    ├── main.cpp           # Main implementation and test functions
-    ├── Matrix.h           # Matrix class header
-    ├── Matrix.tpp         # Matrix template implementations
-    ├── Vector.h           # Vector class header
-    ├── Vector.tpp         # Vector template implementations
-    ├── Utils.h            # Utility functions header
-    ├── Utils.cpp          # Utility functions implementation
-    ├── Utils.tpp          # Utility template implementations
-    ├── Perceptron.h       # Perceptron class header
-    ├── Perceptron.cpp     # Perceptron implementation
-    └── test.cpp           # Additional test functions
-```
+## Training flow
 
-## Algorithm Overview
-
-The perceptron implements the following steps:
-
-1. **Data Initialization**: Define feature matrix X and target vector t
-2. **Weight Initialization**: Create random weight vector w
-3. **Forward Pass**: Compute e = w * X
-4. **Activation**: Apply sigmoid function f(e) and calculate derivatives
-5. **Error Calculation**: Compute quadratic error sum
-6. **Gradient Descent**: Calculate gradient and update weights
-7. **Iteration**: Repeat until convergence (error < 0.01)
-
-## Supported Logic Functions
-
-### AND Function
-```cpp
-std::vector<double> tmp1 = {0,0,0,1};
-std::vector<std::vector<double>> tmp2 = {{0,0,1},{0,1,1},{1,0,1},{1,1,1}};
+```text
+input matrix
+   ↓
+weighted combination
+   ↓
+sigmoid activation
+   ↓
+error calculation
+   ↓
+gradient
+   ↓
+weight update
+   ↺ until convergence
 ```
 
-### OR Function
-```cpp
-std::vector<double> tmp1 = {0,1,1,1};
-std::vector<std::vector<double>> tmp2 = {{0,0,1},{0,1,1},{1,0,1},{1,1,1}};
+## Structure
+
+```text
+src/
+  Matrix.h / Matrix.tpp
+  Vector.h / Vector.tpp
+  Perceptron.h / Perceptron.cpp
+  Utils.h / Utils.cpp / Utils.tpp
+  main.cpp
+Makefile
 ```
 
-### Majority Function (3 inputs)
-```cpp
-std::vector<double> tmp1 = {1,1,1,1,0,0,0,0};
-std::vector<std::vector<double>> tmp2 = {{1,1,1,1},{1,1,0,1},{1,0,1,1},{0,1,1,1},
-                                         {1,0,0,1},{0,1,0,1},{0,0,1,1},{0,0,0,1}};
-```
+## Build
 
-### Custom Function: (A AND B) OR (B AND C)
-```cpp
-std::vector<double> tmp1 = {1,1,1,0,0,0,0,0};
-std::vector<std::vector<double>> tmp2 = {{0,1,1,1},{1,1,0,1},{1,1,1,1},{0,0,0,1},
-                                         {0,0,1,1},{0,1,0,1},{1,0,0,1},{1,0,1,1}};
-```
+Requires a C++ compiler and optional OpenMP support.
 
-## Build and Run
-
-### Prerequisites
-- C++ compiler with C++23 support (g++)
-- OpenMP support (optional, for parallelization)
-
-### Compilation
 ```bash
-# Build and run
-make
-
-# Or build only
 make all
-
-# Run existing binary
 make run
 ```
 
-### Manual Compilation
-```bash
-g++ -std=c++2b src/main.cpp src/Utils.cpp -o build/linearPerceptron
-./build/linearPerceptron
-```
+Or compile manually according to the standard configured in the project.
 
-## Key Components
+## Example problems
 
-### Vector Class
-- Template-based generic vector operations
-- Overloaded operators for mathematical operations
-- Random initialization support
+The current examples include AND, OR, majority and a custom boolean function.
 
-### Matrix Class
-- Template-based matrix operations
-- Matrix-vector multiplication
-- Transpose operations
-- Print utilities
+## Scope
 
-### Utils Class
-Key mathematical functions:
-- `sigmoid(x)`: Sigmoid activation function
-- `sigmoid_derivative(f_x)`: Derivative of sigmoid
-- `calculate_gradient()`: Gradient calculation for weight updates
-- `get_cuadratic_error_sum()`: Error calculation
-
-## Algorithm Parameters
-
-- **Learning Rate**: 0.01 (adjustable)
-- **Convergence Threshold**: 0.01 (error tolerance)
-- **Weight Initialization**: Random values between 0 and 1
-- **Activation Function**: Sigmoid with derivative
-
-## Performance Features
-
-- **Execution Timing**: Automatic measurement of training time
-- **Parallel Processing**: OpenMP optimization for sigmoid calculations
-- **Memory Efficiency**: Template-based classes minimize overhead
-- **Fast Convergence**: Optimized gradient descent implementation
-
-## Example Output
-
-```
-El código se ejecutó en 0.234 segundos
-Resultados
-w: [4.1743, -0.3064, -1.8038]
-```
-
-## Mathematical Foundation
-
-The perceptron uses:
-- **Sigmoid Function**: f(x) = 1 / (1 + e^(-x))
-- **Gradient Descent**: w_new = w_old - α * ∇E
-- **Quadratic Error**: E = Σ(t_i - f_i)²
-
-## Extensibility
-
-The modular design allows for:
-- Different activation functions
-- Custom optimization algorithms
-- Multi-layer extensions
-- Different error functions
-
+This is a learning project, not a production ML library. Its main value is the direct implementation of linear algebra operations and the training loop.
